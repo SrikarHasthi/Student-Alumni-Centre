@@ -1,0 +1,36 @@
+<%- include("_header") -%>
+
+<div class="search-bar-container">
+    <!-- <div class="search-bar"> -->
+        <form action="/search" class="search-bar">
+        <input class="search-bar-input" id="search-text" name="name" placeholder="Search..." type="text">
+        <div class="search-bar-icon-container" type="submit">
+            <button class="search-bar-icon"><img src="https://www.iconsdb.com/icons/preview/white/search-3-xxl.png"></button>
+            <!-- <input type="submit"> -->
+        </div>
+    </form>
+    <!-- </div> -->
+</div>
+<div class="main-body-container">
+        <a href="/add">Add New Student</a>
+    <div class="main-body-data">
+        <% for (let i = 0; i < model.length; i++) { %>
+            <div class="student-data-div">
+                <div class="student-data-container">
+                    <div>Id: <span><%= model[i].id %></span></div>
+                    <div>Name: <span><%= model[i].name %></span></div>
+                    <div>Gender: <span><%= model[i].gender == 0 ? "Male" : model[i].gender == 1 ? "Female" : "Other" %></span></div>
+                    <div>Class: <span><%= model[i].class %></span></div>
+                    <div>Clubs: <span><%= model[i].club %></span></div>
+                    <div>Info: <span><%= model[i].info %></span></div>
+                </div>
+                <div class="student-modify-delete">
+                    <a href="">Modify</a>
+                    <a href="/delete?id=<%= model[i].id %>" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                </div>
+            </div>
+          <% } %>
+    </div> 
+</div>
+
+<%- include("_footer") -%>

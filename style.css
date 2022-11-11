@@ -1,0 +1,112 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.main-top-container {
+    display: flex;
+    justify-content: center;
+}
+
+.heading-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.uni-logo-container{
+    height: 100px;
+    width: 100px;
+}
+
+.uni-logo{
+    width: 100%;
+}
+
+.uni-title{
+    font-size: 25px;
+}
+
+.menu-bar-container{
+    background: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.menu-bar-title{
+    font-size: 20px;
+    color: white;
+}
+
+.menu-bar-subtitle-container{
+    color: white;
+    display: flex;
+    font-size: 17px;
+}
+
+.menu-bar-subtitle{
+    padding: 0 22px;
+}
+
+.search-bar-container{
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-bar{
+    display: flex;
+}
+
+.search-bar-input{
+    width: 300px;
+    height: 25px;
+    padding: 4px 8px;
+    border: 1px solid #e3e3e3;
+    outline: none;
+    border-radius: 5px 0 0 5px;
+}
+
+.search-bar-icon-container{
+    background: black;
+    width: 35px;
+    border-radius: 0 5px 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-bar-icon{
+    width: 53%;
+}
+
+.main-body-container{
+    background: #f5f5f5;
+}
+
+.main-body-data{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px 30px;
+}
+
+.student-data-div{
+    width: 160px;
+    margin-bottom: 15px;
+    margin-right: 15px;
+    background: snow;
+}
+
+.student-data-container{
+    height: 125px;
+    overflow: auto;
+}
+
+.student-modify-delete{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 8px;
+}

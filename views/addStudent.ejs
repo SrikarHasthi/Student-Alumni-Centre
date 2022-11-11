@@ -1,0 +1,21 @@
+<%- include("_header") -%>
+<form action="" method="POST">
+    <label for="id">ID:</label>
+    <input type="number" id="id" name="id"><br><br>
+    <label for="Name">Name:</label>
+    <input type="text" id="name" name="name"><br><br>
+    <label for="gender">Gender:</label>
+    <select name="gender" id="gender">
+      <option value="0">Male</option>
+      <option value="1">Female</option>
+      <option value="2">Other</option>
+    </select>
+    <label for="class">Class:</label>
+    <input type="number" id="class" name="class">
+    <label for="clubs">Clubs:</label>
+    <input type="number" id="clubs" name="clubs">
+    <label for="info">Info:</label>
+    <textarea id="info" name="info" rows="4" cols="50"></textarea>
+    <input type="submit" value="Submit">
+  </form>
+<%- include("_footer") -%>
