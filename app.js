@@ -1,21 +1,39 @@
-let sql;
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./database.db', sqlite3.OPEN_READWRITE, (err)=>{
+import express from "express";
+import { fileURLToPath } from 'url';
+import path from 'path';
+import { dirname } from 'path';
+import sqlite3 from "sqlite3";
+import bodyParser from 'body-parser';
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const db_name = path.join(__dirname, "database.db");
+
+const db = new sqlite3.Database(db_name, err => {
     if (err) {
-        return console.error(err.message);
+      return console.error(err.message);
     }
+    console.log("Successful connection to the database");
 });
 
-// sql = 'CREATE TABLE students (id integer primary key, name varchar(100), gender integer, class integer, info varchar(1000))';
-// db.run(sql);
-// sql = 'insert into students (id, name, gender, class, info) values (1, "srikar", 0, 21, "hello there")';
-// db.run(sql);
-sql = 'select * from students';
-db.all(sql,[], (err, rows)=>{
-    if (err) {
-        console.error(err.message);
-    }
-    rows.map(e => {
-        console.log(e);
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.listen(3000, ()=>{
+    console.log("server started");
+})
+app.use(express.static(__dirname));
+
+app.get("/", (req, res) => {
+    const sql = "SELECT * FROM students"
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      console.log(rows);
+      res.render("index1", { model: rows });
     });
-});
+  });
