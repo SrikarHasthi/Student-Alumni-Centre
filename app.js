@@ -50,3 +50,42 @@ app.get("/search", (req, res) => {
     });
 })
 
+app.post("/add", (req, res) => {
+
+    const sql = "INSERT INTO Students (id, name, gender, class, club, info) VALUES (?, ?, ?, ?, ?, ?)";
+    const student = [req.body.id, req.body.name, req.body.gender, req.body.class, req.body.clubs, req.body.info];
+     db.run(sql, student, err => {
+        if (err) {
+            return console.error(err.message);
+        }
+        res.render("index1");
+     });
+  });
+
+app.get("/add", (req, res) => {
+    res.render("addStudent", { model: {} });
+});
+
+app.get("/delete", (req, res)=>{
+    const sql = "DELETE FROM Students where id=?";
+    const id = req.query.id;
+    db.run(sql, id, err => {
+        if (err) {
+            return console.error(err.message);
+        }
+        res.redirect("/");
+    })
+});
+
+app.get("/modify", (req,res)=>{
+  const sql = "SELECT * FROM Students where id=?";
+  const id = req.query.id;
+  db.all(sql, id, (err, data)=>{
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log(data);
+    res.render("modifyStudent", { model: data });
+  })
+  console.log(req);
+});
