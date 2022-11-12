@@ -49,3 +49,4 @@ app.get("/search", (req, res) => {
       res.render("index1", { model: rows });
     });
 })
+
