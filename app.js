@@ -37,3 +37,15 @@ app.get("/", (req, res) => {
       res.render("index1", { model: rows });
     });
   });
+
+app.get("/search", (req, res) => {
+    let name = req.query.name;
+    const sql = "SELECT * FROM students where name LIKE '%"+ name+"'";
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      console.log(rows);
+      res.render("index1", { model: rows });
+    });
+})
