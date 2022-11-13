@@ -2,20 +2,12 @@ import express from "express";
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { dirname } from 'path';
-import sqlite3 from "sqlite3";
 import bodyParser from 'body-parser';
+import Student from "./Student.js";
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const db_name = path.join(__dirname, "database.db");
-
-const db = new sqlite3.Database(db_name, err => {
-    if (err) {
-      return console.error(err.message);
-    }
-    console.log("Successful connection to the database");
-});
 
 const app = express();
 app.use(bodyParser.json());
@@ -28,37 +20,18 @@ app.listen(3000, ()=>{
 app.use(express.static(__dirname));
 
 app.get("/", (req, res) => {
-    const sql = "SELECT * FROM students"
-    db.all(sql, [], (err, rows) => {
-      if (err) {
-        return console.error(err.message);
-      }
-      res.render("index1", { model: rows });
-    });
+  let student = new Student();
+  student.getAllData(req, res);
   });
 
 app.get("/search", (req, res) => {
-    let name = req.query.name;
-    const sql = "SELECT * FROM students where name LIKE '%"+ name+"%'";
-    db.all(sql, [], (err, rows) => {
-      if (err) {
-        return console.error(err.message);
-      }
-      console.log(rows);
-      res.render("index1", { model: rows });
-    });
+  let student = new Student();
+  student.search(req, res);
 })
 
 app.post("/add", (req, res) => {
-
-    const sql = "INSERT INTO Students (id, name, gender, class, club, info) VALUES (?, ?, ?, ?, ?, ?)";
-    const student = [req.body.id, req.body.name, req.body.gender, req.body.class, req.body.clubs, req.body.info];
-     db.run(sql, student, err => {
-        if (err) {
-            return console.error(err.message);
-        }
-        res.redirect("/");
-     });
+    let student = new Student(req.body.id, req.body.name, req.body.gender, req.body.class, req.body.clubs, req.body.info);
+    student.add(req, res);
 });
 
 app.get("/add", (req, res) => {
@@ -66,36 +39,16 @@ app.get("/add", (req, res) => {
 });
 
 app.get("/delete", (req, res)=>{
-    const sql = "DELETE FROM Students where id=?";
-    const id = req.query.id;
-    db.run(sql, id, err => {
-        if (err) {
-            return console.error(err.message);
-        }
-        res.redirect("/");
-    })
+  let student = new Student();
+  student.delete(req, res);
 });
 
 app.get("/modify", (req,res)=>{
-  const sql = "SELECT * FROM Students where id=?";
-  const id = req.query.id;
-  db.all(sql, id, (err, data)=>{
-    if (err) {
-      return console.error(err.message);
-    }
-    console.log(data);
-    res.render("modifyStudent", { model: data });
-  })
-  console.log(req);
+  let student = new Student();
+  student.modifyGetInfo(req, res);
 });
 
 app.post("/modify", (req, res) => {
-  const sql = "UPDATE Students SET name=?, gender=?, class=?, club=?, info=? WHERE id=?";
-  const student = [req.body.name, req.body.gender, req.body.class, req.body.clubs, req.body.info, req.body.id];
-   db.run(sql, student, err => {
-      if (err) {
-          return console.error(err.message);
-      }
-      res.redirect("/");
-   });
+  let student = new Student(req.body.id, req.body.name, req.body.gender, req.body.class, req.body.clubs, req.body.info);
+  student.modifyInfo(req, res);
 });
