@@ -38,6 +38,7 @@ body {
 .menu-bar-title{
     font-size: 20px;
     color: white;
+    text-decoration: none;
 }
 
 .menu-bar-subtitle-container{
@@ -80,7 +81,8 @@ body {
 }
 
 .search-bar-icon{
-    width: 53%;
+    background: black;
+    width: 80%;
 }
 
 .main-body-container{
