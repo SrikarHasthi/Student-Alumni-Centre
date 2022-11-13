@@ -30,7 +30,12 @@ app.get("/search", (req, res) => {
 })
 
 app.post("/add", (req, res) => {
-    let student = new Student(req.body.id, req.body.name, req.body.gender, req.body.class, req.body.clubs, req.body.info);
+    let student = new Student(req.body.id,
+      req.body.name,
+      req.body.gender,
+      req.body.class,
+      req.body.clubs,
+      req.body.info);
     student.add(req, res);
 });
 
@@ -49,6 +54,11 @@ app.get("/modify", (req,res)=>{
 });
 
 app.post("/modify", (req, res) => {
-  let student = new Student(req.body.id, req.body.name, req.body.gender, req.body.class, req.body.clubs, req.body.info);
+  let student = new Student(req.body.id, 
+    req.body.name, 
+    req.body.gender, 
+    req.body.class, 
+    req.body.clubs, 
+    req.body.info);
   student.modifyInfo(req, res);
 });
