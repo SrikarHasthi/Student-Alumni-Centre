@@ -33,14 +33,13 @@ app.get("/", (req, res) => {
       if (err) {
         return console.error(err.message);
       }
-      console.log(rows);
       res.render("index1", { model: rows });
     });
   });
 
 app.get("/search", (req, res) => {
     let name = req.query.name;
-    const sql = "SELECT * FROM students where name LIKE '%"+ name+"'";
+    const sql = "SELECT * FROM students where name LIKE '%"+ name+"%'";
     db.all(sql, [], (err, rows) => {
       if (err) {
         return console.error(err.message);
@@ -58,9 +57,9 @@ app.post("/add", (req, res) => {
         if (err) {
             return console.error(err.message);
         }
-        res.render("index1");
+        res.redirect("/");
      });
-  });
+});
 
 app.get("/add", (req, res) => {
     res.render("addStudent", { model: {} });
@@ -88,4 +87,15 @@ app.get("/modify", (req,res)=>{
     res.render("modifyStudent", { model: data });
   })
   console.log(req);
+});
+
+app.post("/modify", (req, res) => {
+  const sql = "UPDATE Students SET name=?, gender=?, class=?, club=?, info=? WHERE id=?";
+  const student = [req.body.name, req.body.gender, req.body.class, req.body.clubs, req.body.info, req.body.id];
+   db.run(sql, student, err => {
+      if (err) {
+          return console.error(err.message);
+      }
+      res.redirect("/");
+   });
 });
