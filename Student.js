@@ -1,17 +1,5 @@
-import { fileURLToPath } from 'url';
-import path from 'path';
-import { dirname } from 'path';
-import sqlite3 from "sqlite3";
+import { __filename, __dirname, db, checkForError } from "./utils.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const db_name = path.join(__dirname, "database.db");
-const db = new sqlite3.Database(db_name, err => {
-    if (err) {
-      return console.error(err.message);
-    }
-    console.log("Successful connection to the database");
-});
 class Student {
     constructor(id, name, gender, classes, clubs, info){
         this.id = id;
@@ -24,60 +12,78 @@ class Student {
     getAllData(req, res){
         const sql = "SELECT * FROM students"
         db.all(sql, [], (err, rows) => {
-          if (err) {
-            return console.error(err.message);
-          }
-          res.render("index1", { model: rows });
+            checkForError(err);
+       
+          //res.json(rows);
+          res.render("index", { model: rows, type: "student" });
         });
     }
     search(req, res){
         let name = req.query.name;
         const sql = "SELECT * FROM students where name LIKE '%"+ name+"%'";
         db.all(sql, [], (err, rows) => {
-          if (err) {
-            return console.error(err.message);
-          }
-          res.render("index1", { model: rows });
+            checkForError(err);
+
+          res.json(rows);
+         // res.render("index", { model: rows, type: "student" });
         });
     }
     add(req, res){
         const sql = "INSERT INTO Students (id, name, gender, class, club, info) VALUES (?, ?, ?, ?, ?, ?)";
         const student = [this.id, this.name, this.gender, this.classes, this.clubs, this.info];
          db.run(sql, student, err => {
-            if (err) {
-                return console.error(err.message);
-            }
-            res.redirect("/");
+            checkForError(err);
+
+            let ob = {
+                id: this.id,
+                name: this.name,
+                gender: this.gender,
+                class: this.classes,
+                clubs: this.clubs,
+                info: this.info,
+            };
+            res.json(ob);
+            //res.redirect("/");
          });
     }
     delete(req, res){
         const sql = "DELETE FROM Students where id=?";
         const id = req.query.id;
         db.run(sql, id, err => {
-            if (err) {
-                return console.error(err.message);
-            }
-            res.redirect("/");
+            checkForError(err);
+
+            let ob = {
+                id: id
+            };
+            res.json(ob);
+            //res.redirect("/");
         })
     }
     modifyGetInfo(req, res){
         const sql = "SELECT * FROM Students where id=?";
         const id = req.query.id;
         db.all(sql, id, (err, data)=>{
-          if (err) {
-            return console.error(err.message);
-          }
-          res.render("modifyStudent", { model: data });
+            checkForError(err);
+
+          res.render("modifyStudent", { model: data, type: "student" });
         })
     }
     modifyInfo(req, res){
         const sql = "UPDATE Students SET name=?, gender=?, class=?, club=?, info=? WHERE id=?";
         const student = [this.name, this.gender, this.classes, this.clubs, this.info, this.id];
          db.run(sql, student, err => {
-            if (err) {
-                return console.error(err.message);
-            }
-            res.redirect("/");
+            checkForError(err);
+
+            let ob = {
+                id: this.id,
+                name: this.name,
+                gender: this.gender,
+                class: this.classes,
+                clubs: this.clubs,
+                info: this.info,
+            };
+            res.json(ob);
+            //res.redirect("/");
          });
     }
 }
