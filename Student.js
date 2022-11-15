@@ -13,8 +13,6 @@ class Student {
         const sql = "SELECT * FROM students"
         db.all(sql, [], (err, rows) => {
             checkForError(err);
-       
-          //res.json(rows);
           res.render("index", { model: rows, type: "student" });
         });
     }
@@ -23,9 +21,7 @@ class Student {
         const sql = "SELECT * FROM students where name LIKE '%"+ name+"%'";
         db.all(sql, [], (err, rows) => {
             checkForError(err);
-
-          res.json(rows);
-         // res.render("index", { model: rows, type: "student" });
+         res.render("index", { model: rows, type: "student" });
         });
     }
     add(req, res){
@@ -33,17 +29,7 @@ class Student {
         const student = [this.id, this.name, this.gender, this.classes, this.clubs, this.info];
          db.run(sql, student, err => {
             checkForError(err);
-
-            let ob = {
-                id: this.id,
-                name: this.name,
-                gender: this.gender,
-                class: this.classes,
-                clubs: this.clubs,
-                info: this.info,
-            };
-            res.json(ob);
-            //res.redirect("/");
+            res.redirect("/");
          });
     }
     delete(req, res){
@@ -51,12 +37,7 @@ class Student {
         const id = req.query.id;
         db.run(sql, id, err => {
             checkForError(err);
-
-            let ob = {
-                id: id
-            };
-            res.json(ob);
-            //res.redirect("/");
+            res.redirect("/");
         })
     }
     modifyGetInfo(req, res){
@@ -64,7 +45,6 @@ class Student {
         const id = req.query.id;
         db.all(sql, id, (err, data)=>{
             checkForError(err);
-
           res.render("modifyStudent", { model: data, type: "student" });
         })
     }
@@ -73,17 +53,7 @@ class Student {
         const student = [this.name, this.gender, this.classes, this.clubs, this.info, this.id];
          db.run(sql, student, err => {
             checkForError(err);
-
-            let ob = {
-                id: this.id,
-                name: this.name,
-                gender: this.gender,
-                class: this.classes,
-                clubs: this.clubs,
-                info: this.info,
-            };
-            res.json(ob);
-            //res.redirect("/");
+            res.redirect("/");
          });
     }
 }
