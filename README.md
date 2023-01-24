@@ -5,7 +5,7 @@
 3) Harshavardhana Mudduluru - 40231250
 
 Project title:
-Student Management System
+Student Alumni Centre
 
 Commands to run the application-
 1) npm install
